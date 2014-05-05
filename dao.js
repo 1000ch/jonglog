@@ -7,66 +7,54 @@ var Collections = {
 };
 
 function get(callback) {
-  try {
-    MongoClinet.connect(HOSTNAME, function (error, db) {
+  MongoClinet.connect(HOSTNAME, function (error, db) {
+    if (error) {
+      throw error;
+    }
+    var collection = db.collection(Collections.RESULT);
+    collection.find().toArray(function (error, results) {
       if (error) {
         throw error;
       }
-      var collection = db.collection(Collections.RESULT);
-      collection.find().toArray(function (error, results) {
-        if (error) {
-          throw error;
-        }
-        callback(results);
-      });
+      callback(results);
     });
-  } catch (e) {
-    throw e;
-  }
+  });
 }
 
 function add(docs, callback) {
   if (!docs) {
     throw new Error('Insert data is required.');
   }
-  try {
-    MongoClinet.connect(HOSTNAME, function (error, db) {
+  MongoClinet.connect(HOSTNAME, function (error, db) {
+    if (error) {
+      throw error;
+    }
+    var collection = db.collection(Collections.RESULT);
+    collection.insert(docs, function (error, results) {
       if (error) {
         throw error;
       }
-      var collection = db.collection(Collections.RESULT);
-      collection.insert(docs, function (error, results) {
-        if (error) {
-          throw error;
-        }
-        callback(results);
-      });
+      callback(results);
     });
-  } catch (e) {
-    throw e;
-  }
+  });
 }
 
 function remove(selector, callback) {
-  try {
-    if (selector._id) {
-      selector._id = ObjectID(selector._id);
+  if (selector._id) {
+    selector._id = ObjectID(selector._id);
+  }
+  MongoClinet.connect(HOSTNAME, function (error, db) {
+    if (error) {
+      throw error;
     }
-    MongoClinet.connect(HOSTNAME, function (error, db) {
+    var collection = db.collection(Collections.RESULT);
+    collection.remove(selector, function (error, results) {
       if (error) {
         throw error;
       }
-      var collection = db.collection(Collections.RESULT);
-      collection.remove(selector, function (error, results) {
-        if (error) {
-          throw error;
-        }
-        callback(results);
-      });
+      callback(results);
     });
-  } catch (e) {
-    throw e;
-  }
+  });
 }
 
 module.exports = {
