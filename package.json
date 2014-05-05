@@ -1,0 +1,22 @@
+{
+  "name": "jonglog",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "1000ch",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.0.2",
+    "express": "^4.1.1",
+    "jade": "^1.3.1",
+    "mongodb": "^1.4.3",
+    "underscore": "^1.6.0"
+  },
+  "devDependencies": {
+    "bower": "^1.3.3",
+    "uglify-js": "^2.4.13"
+  }
+}
