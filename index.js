@@ -25,9 +25,10 @@ app.post('/api/list', function (request, response, next) {
 });
 
 app.delete('/api/list/:id', function (request, response, next) {
-  dao.remove({
+  var selector = {
     _id: request.params.id
-  }, function (results) {
+  };
+  dao.remove(selector, function (results) {
     response.json(results);
   });
 });

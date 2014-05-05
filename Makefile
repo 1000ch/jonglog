@@ -1,6 +1,6 @@
 PROJECTNAME="JONGLOG"
 
-all: prologue init concat copy minify finish epilogue
+all: prologue init concat minify finish epilogue
 
 prologue:
 	@echo ""
@@ -21,13 +21,6 @@ concat:
 	@echo ""
 
 	cat public/jquery/dist/jquery.js public/underscore/underscore.js public/backbone/backbone.js public/moment/moment.js > public/js/lib.js
-	cat public/bootstrap/dist/css/bootstrap.css > public/css/lib.css
-
-copy:
-	@echo ""
-	@echo ">>> Copy"
-	@echo ""
-	cp -r public/bootstrap/dist/fonts public
 
 minify:
 	@echo ""
@@ -41,4 +34,4 @@ epilogue:
 	@echo ">>> $(PROJECTNAME) build has successfully finished"
 	@echo ""
 
-.PHONY: prologue init concat copy minify finish epilogue
+.PHONY: prologue init concat minify finish epilogue

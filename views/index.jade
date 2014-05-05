@@ -3,58 +3,63 @@ html
   head
     meta(charset='utf-8')
     title Jonglog
-    link(rel='stylesheet', href='/css/lib.css')
+    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
   body
     .container
-      button#js-debug.btn.btn-success Debug
-      form#js-form.form-horizontal
-        .form-group
-          label.col-sm-2.control-label(for='js-date') Date
-          .col-sm-6
-            input#js-date(type='date', name='date')
-        .form-group
-          label.col-sm-2.control-label(for='js-round') Round
-          .col-sm-6
-            input#js-round(type='number', name='round')
-        .form-group
-          label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
-          .col-sm-6
-            input#js-score-hokaccha(type='number', name='hokaccha')
-        .form-group
-          label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
-          .col-sm-6
-            input#js-score-1000ch(type='number', name='1000ch')
-        .form-group
-          label.col-sm-2.control-label(for='js-score-hiloki') hiloki
-          .col-sm-6
-            input#js-score-hiloki(type='number', name='hiloki')
-        .form-group
-          label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
-          .col-sm-6
-            input#js-score-tan_yuki(type='number', name='tan_yuki')
-        button#js-submit.btn.btn-default Submit
-      table#js-results.table.table-bordered
-        thead
-          tr
-            th Date
-            th Round
-            th @hokaccha
-            th @1000ch
-            th @hiloki
-            th @tan_yuki
-            th 
-        tbody
-    script#js-result(type='text/template')
-      | <% _.each(results, function (result) { %>
-      |   <tr>
-      |     <td><%= result.date %></td>
-      |     <td><%= result.round %></td>
-      |     <td><%= result.hokaccha %></td>
-      |     <td><%= result['1000ch'] %></td>
-      |     <td><%= result.hiloki %></td>
-      |     <td><%= result.tan_yuki %></td>
-      |     <td><button class='btn btn-warning js-delete' data-id='<%= result._id %>'>Delete</button></td>
-      |   </tr>
-      | <% }) %>
+      .row
+        .col-xs-6
+          form#js-form.form-horizontal
+            .form-group
+              label.col-sm-2.control-label(for='js-date') Date
+              .col-sm-6
+                input#js-date(type='date', name='date', required)
+            .form-group
+              label.col-sm-2.control-label(for='js-round') Round
+              .col-sm-6
+                input#js-round(type='number', value='1', name='round', required)
+            .form-group
+              label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
+              .col-sm-6
+                input#js-score-hokaccha(type='number', name='hokaccha', value='25000', step='100', required)
+            .form-group
+              label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
+              .col-sm-6
+                input#js-score-1000ch(type='number', name='1000ch', value='25000', step='100', required)
+            .form-group
+              label.col-sm-2.control-label(for='js-score-hiloki') hiloki
+              .col-sm-6
+                input#js-score-hiloki(type='number', name='hiloki', value='25000', step='100', required)
+            .form-group
+              label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
+              .col-sm-6
+                input#js-score-tan_yuki(type='number', name='tan_yuki', value='25000', step='100', required)
+            button#js-submit.btn.btn-default Submit
+        .col-xs-6
+          table.table.table-bordered
+            thead
+              tr
+                th Date
+                th Round
+                th @hokaccha
+                th @1000ch
+                th @hiloki
+                th @tan_yuki
+                th 
+            tbody#js-results
+            tfoot#js-total
+              tr
+                th
+                th
+                th#js-total-hokaccha
+                th#js-total-1000ch
+                th#js-total-hiloki
+                th#js-total-tan_yuki
+                th
     script(src='/js/lib.js')
+    script(src='/js/namespace.js')
+    script(src='/js/model/result.js')
+    script(src='/js/view/submit-form.js')
+    script(src='/js/view/result-item.js')
+    script(src='/js/view/result-list.js')
+    script(src='/js/view/result-total.js')
     script(src='/js/app.js')
