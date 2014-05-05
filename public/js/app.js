@@ -55,6 +55,32 @@ Jonglog.View.SubmitFormView = Backbone.View.extend({
   }
 });
 
+Jonglog.View.ResultItemView = Backbone.View.extend({
+  tagName: 'tr',
+  template: '<td><%= model.date %></td>' +
+            '<td><%= model.round %></td>' +
+            '<td><%= model.hokaccha %></td>' +
+            '<td><%= model["1000ch"] %></td>' +
+            '<td><%= model.hiloki %></td>' +
+            '<td><%= model.tan_yuki %></td>' +
+            '<td><button class="btn btn-warning js-delete" data-id="<%= model._id %>">Delete</button></td>',
+  events: {
+    'click .js-delete': 'onDeleteClick'
+  },
+  initialize: function () {
+    this.render();
+  },
+  render: function () {
+    var html = _.template(this.template, {
+      model: this.model.toJSON()
+    });
+    this.$el.html(html);
+  },
+  onDeleteClick: function (e) {
+    this.model.destroy();
+  }
+});
+
 Jonglog.View.ResultListView = Backbone.View.extend({
   el: '#js-results',
   events: {
@@ -66,18 +92,14 @@ Jonglog.View.ResultListView = Backbone.View.extend({
     this.listenTo(this.collection, 'destroy', this.render);
   },
   render: function () {
-    var html = this.template({
-      results: this.collection.toJSON()
+    var items = [];
+    this.collection.each(function (model) {
+      var resultItemView = new Jonglog.View.ResultItemView({
+        model: model
+      });
+      items.push(resultItemView.el);
     });
-    this.$el.find('tbody').html(html);
-  },
-  onDelete: function (e) {
-    var model = this.collection.findWhere({
-      _id: e.target.getAttribute('data-id')
-    });
-    if (model) {
-      model.destroy();
-    }
+    this.$el.find('tbody').html(items);
   }
 });
 
