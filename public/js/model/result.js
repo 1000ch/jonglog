@@ -55,13 +55,13 @@ Jonglog.Model.Result = Backbone.Model.extend({
       var item = array.pop();
       switch (item.rank) {
         case 4:
-          points[4] =  ((item.score - 30000) / 1000) - 20;
+          points[4] =  Math.round((item.score - 30000) / 1000) - 20;
           break;
         case 3:
-          points[3] = ((item.score - 30000) / 1000) - 10;
+          points[3] = Math.round((item.score - 30000) / 1000) - 10;
           break;
         case 2:
-          points[2] = ((item.score - 30000) / 1000) + 10;
+          points[2] = Math.round((item.score - 30000) / 1000) + 10;
           break;
         case 1:
           points[1] = 0 - points[2] - points[3] - points[4];

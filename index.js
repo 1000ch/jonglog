@@ -9,7 +9,11 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
 app.get('/', function (request, response) {
-  response.render('index');
+  dao.distinct('date', function (dates) {
+    response.render('index', {
+      dates: dates
+    });
+  });
 });
 
 app.get('/api/list', function (request, response, next) {

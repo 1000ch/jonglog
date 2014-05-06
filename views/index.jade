@@ -3,38 +3,47 @@ html
   head
     meta(charset='utf-8')
     title Jonglog
-    link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
+    meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui')
+    link(rel='stylesheet', href='/css/lib.css')
   body
-    .container
-      .row
-        .col-xs-6
-          form#js-form.form-horizontal
-            .form-group
-              label.col-sm-2.control-label(for='js-date') Date
-              .col-sm-6
-                input#js-date(type='date', name='date', required)
-            .form-group
-              label.col-sm-2.control-label(for='js-round') Round
-              .col-sm-6
-                input#js-round(type='number', value='1', name='round', required)
-            .form-group
-              label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
-              .col-sm-6
-                input#js-score-hokaccha(type='number', name='hokaccha', value='25000', step='100', required)
-            .form-group
-              label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
-              .col-sm-6
-                input#js-score-1000ch(type='number', name='1000ch', value='25000', step='100', required)
-            .form-group
-              label.col-sm-2.control-label(for='js-score-hiloki') hiloki
-              .col-sm-6
-                input#js-score-hiloki(type='number', name='hiloki', value='25000', step='100', required)
-            .form-group
-              label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
-              .col-sm-6
-                input#js-score-tan_yuki(type='number', name='tan_yuki', value='25000', step='100', required)
-            button#js-submit.btn.btn-default Submit
-        .col-xs-6
+    header#js-header.bar.bar-nav
+      a.icon.icon-left-nav.pull-left(data-link='/')
+      h1.title 結果
+    .content
+      ul#js-date-list.table-view
+        each date in dates
+          li.table-view-cell
+            a.navigate-right(data-link='/#{date}')!= date
+      div#js-result
+        ul#js-results.table-view
+    div#js-register
+      form#js-form.form-horizontal
+        .form-group
+          label.col-sm-2.control-label(for='js-date') Date
+          .col-sm-6
+            input#js-date(type='date', name='date', required)
+        .form-group
+          label.col-sm-2.control-label(for='js-round') Round
+          .col-sm-6
+            input#js-round(type='number', value='1', name='round', required)
+        .form-group
+          label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
+          .col-sm-6
+            input#js-score-hokaccha(type='number', name='hokaccha', value='25000', step='100', required)
+        .form-group
+          label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
+          .col-sm-6
+            input#js-score-1000ch(type='number', name='1000ch', value='25000', step='100', required)
+        .form-group
+          label.col-sm-2.control-label(for='js-score-hiloki') hiloki
+          .col-sm-6
+            input#js-score-hiloki(type='number', name='hiloki', value='25000', step='100', required)
+        .form-group
+          label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
+          .col-sm-6
+            input#js-score-tan_yuki(type='number', name='tan_yuki', value='25000', step='100', required)
+        button#js-submit.btn.btn-default Submit
+        .col-xs-8
           table.table.table-bordered
             thead
               tr
@@ -45,7 +54,7 @@ html
                 th @hiloki
                 th @tan_yuki
                 th 
-            tbody#js-results
+            tbody
             tfoot#js-total
               tr
                 th
@@ -59,6 +68,9 @@ html
     script(src='/js/namespace.js')
     script(src='/js/model/result.js')
     script(src='/js/view/submit-form.js')
+    script(src='/js/view/header.js')
+    script(src='/js/view/date-list.js')
+    script(src='/js/view/result.js')
     script(src='/js/view/result-item.js')
     script(src='/js/view/result-list.js')
     script(src='/js/view/result-total.js')

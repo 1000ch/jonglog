@@ -1,25 +1,17 @@
 Jonglog.View.ResultItemView = Backbone.View.extend({
-  tagName: 'tr',
+  tagName: 'li',
+  className: 'table-view-cell',
   template:
-    '<td><%= model.date %></td>' +
-    '<td><%= model.round %></td>' +
-    '<td>' + 
-      '<%= model.hokaccha.score %><br>' + 
-      '<%= model.hokaccha.point %>(<%= model.hokaccha.rank %>)' +
-    '</td>' +
-    '<td>' + 
-      '<%= model["1000ch"].score %><br>' +
-      '<%= model["1000ch"].point %>(<%= model["1000ch"].rank %>)' + 
-    '</td>' +
-    '<td>' +
-      '<%= model.hiloki.score %><br>' +
-      '<%= model.hiloki.point %>(<%= model.hiloki.rank %>)' + 
-    '</td>' +
-    '<td>' + 
-      '<%= model.tan_yuki.score %><br>' +
-      '<%= model.tan_yuki.point %>(<%= model.tan_yuki.rank %>)' +
-    '</td>' +
-    '<td><button class="btn btn-warning js-delete" data-id="<%= model._id %>">Delete</button></td>',
+    '<date><%= model.date %></date> - No.<%= model.round %><br>' +
+    '<%= model.hokaccha.score %><br>' + 
+    '<%= model.hokaccha.point %>(<%= model.hokaccha.rank %>)' +
+    '<%= model["1000ch"].score %><br>' +
+    '<%= model["1000ch"].point %>(<%= model["1000ch"].rank %>)' +
+    '<%= model.hiloki.score %><br>' +
+    '<%= model.hiloki.point %>(<%= model.hiloki.rank %>)' +
+    '<%= model.tan_yuki.score %><br>' +
+    '<%= model.tan_yuki.point %>(<%= model.tan_yuki.rank %>)' +
+    '<button class="btn btn-negative js-delete" data-id="<%= model._id %>">Delete</button>',
   events: {
     'click .js-delete': 'onClickDelete'
   },

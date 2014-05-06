@@ -57,8 +57,24 @@ function remove(selector, callback) {
   });
 }
 
+function distinct(key, callback) {
+  MongoClinet.connect(HOSTNAME, function (error, db) {
+    if (error) {
+      throw error;
+    }
+    var collection = db.collection(Collections.RESULT);
+    collection.distinct(key, function (error, results) {
+      if (error) {
+        throw error;
+      }
+      callback(results);
+    });
+  });
+}
+
 module.exports = {
   get: get,
   add: add,
-  remove: remove
+  remove: remove,
+  distinct: distinct
 };

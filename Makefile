@@ -1,6 +1,6 @@
 PROJECTNAME="JONGLOG"
 
-all: prologue init concat minify finish epilogue
+all: prologue init concat copy minify finish epilogue
 
 prologue:
 	@echo ""
@@ -15,12 +15,20 @@ init:
 	npm install .
 	node_modules/bower/bin/bower install
 
+copy:
+	@echo ""
+	@echo ">>> Copy"
+	@echo ""
+
+	cp -r public/ratchet/dist/fonts public
+
 concat:
 	@echo ""
 	@echo ">>> Concatenate"
 	@echo ""
 
-	cat public/jquery/dist/jquery.js public/underscore/underscore.js public/backbone/backbone.js public/moment/moment.js > public/js/lib.js
+	cat public/jquery/dist/jquery.js public/underscore/underscore.js public/backbone/backbone.js public/ratchet/js/rachet.js public/moment/moment.js > public/js/lib.js
+	cat public/ratchet/dist/css/ratchet.css public/ratchet/dist/css/ratchet-theme-ios.css > public/css/lib.css
 
 minify:
 	@echo ""
@@ -34,4 +42,4 @@ epilogue:
 	@echo ">>> $(PROJECTNAME) build has successfully finished"
 	@echo ""
 
-.PHONY: prologue init concat minify finish epilogue
+.PHONY: prologue init concat copy minify finish epilogue
