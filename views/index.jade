@@ -14,35 +14,29 @@ html
         each date in dates
           li.table-view-cell
             a.navigate-right(data-link='/#{date}')!= date
-      div#js-result
-        ul#js-results.table-view
-    div#js-register
-      form#js-form.form-horizontal
-        .form-group
-          label.col-sm-2.control-label(for='js-date') Date
-          .col-sm-6
+      #js-result
+        #js-results
+      #js-register
+        form.input-group
+          .input-row
+            label(for='js-date') Date
             input#js-date(type='date', name='date', required)
-        .form-group
-          label.col-sm-2.control-label(for='js-round') Round
-          .col-sm-6
+          .input-row
+            label.col-sm-2.control-label(for='js-round') Round
             input#js-round(type='number', value='1', name='round', required)
-        .form-group
-          label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
-          .col-sm-6
+          .input-row
+            label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
             input#js-score-hokaccha(type='number', name='hokaccha', value='25000', step='100', required)
-        .form-group
-          label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
-          .col-sm-6
+          .input-row
+            label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
             input#js-score-1000ch(type='number', name='1000ch', value='25000', step='100', required)
-        .form-group
-          label.col-sm-2.control-label(for='js-score-hiloki') hiloki
-          .col-sm-6
+          .input-row
+            label.col-sm-2.control-label(for='js-score-hiloki') hiloki
             input#js-score-hiloki(type='number', name='hiloki', value='25000', step='100', required)
-        .form-group
-          label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
-          .col-sm-6
+          .input-row
+            label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
             input#js-score-tan_yuki(type='number', name='tan_yuki', value='25000', step='100', required)
-        button#js-submit.btn.btn-default Submit
+          button#js-submit.btn.btn-primary.btn-block Submit
         .col-xs-8
           table.table.table-bordered
             thead
