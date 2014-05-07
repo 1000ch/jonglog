@@ -1,36 +1,29 @@
 Jonglog.View.ResultTotalView = Backbone.View.extend({
   el: '#js-total',
+  date: '',
   initialize: function () {
-    this.$hokaccha = this.$el.find('#js-total-hokaccha');
-    this.$1000ch = this.$el.find('#js-total-1000ch');
-    this.$hiloki = this.$el.find('#js-total-hiloki');
-    this.$tan_yuki = this.$el.find('#js-total-tan_yuki');
-    this.elementMap = {
-      'hokaccha': this.$hokaccha,
-      '1000ch': this.$1000ch,
-      'hiloki': this.$hiloki,
-      'tan_yuki': this.$tan_yuki
-    };
     this.listenTo(this.collection, 'sync destroy', this.render);
+    this.listenTo(Jonglog.mediator, 'filter:date', this.setDateFilter);
+  },
+  setDateFilter: function (date) {
+    this.date = date;
+    this.render();
+  },
+  filter: function () {
+    var self = this;
+    if (!self.date) {
+      return self.collection;
+    } else {
+      var array = self.collection.filter(function (model) {
+        return model.get('date') === self.date;
+      });
+      return new Jonglog.Collection.Results(array);
+    }
   },
   render: function () {
-    var self = this;
-    var keys = ['hokaccha', '1000ch', 'hiloki', 'tan_yuki'];
-    var json = this.collection.toJSON();
-    _.each(keys, function (key) {
-      var ranks = _.map(json, function (data) {
-        return data[key].rank - 0;
-      });
-      var points = _.map(json, function (data) {
-        return data[key].point - 0;
-      });
-      var rankSum = _.reduce(ranks, function (a, b) {
-        return a + b;
-      });
-      var pointSum = _.reduce(points, function (a, b) {
-        return a + b;
-      });
-      self.elementMap[key].html(pointSum + '(' + rankSum / ranks.length + ')');
+    var resultTotalItem = new Jonglog.View.ResultTotalItemView({
+      collection: this.filter()
     });
+    this.$el.html(resultTotalItem.el);
   }
 });

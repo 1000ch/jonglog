@@ -26,12 +26,11 @@ Jonglog.dateListView = new Jonglog.View.DateListView({
   collection: Jonglog.results
 });
 Jonglog.resultView = new Jonglog.View.ResultView();
-Jonglog.submitFormView = new Jonglog.View.SubmitFormView({
+Jonglog.registerView = new Jonglog.View.RegisterView({
   collection: Jonglog.results
 });
 
 $(function () {
-  Jonglog.submitFormView.$el.find('#js-date').val(moment().format('YYYY-MM-DD'));
   $.when(
     Jonglog.results.fetch()
   ).done(function () {

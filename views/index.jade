@@ -16,6 +16,7 @@ html
             a.navigate-right(data-link='/#{date}')!= date
       #js-result
         #js-results
+        #js-total
       #js-register
         form.input-group
           .input-row
@@ -23,49 +24,29 @@ html
             input#js-date(type='date', name='date', required)
           .input-row
             label.col-sm-2.control-label(for='js-round') Round
-            input#js-round(type='number', value='1', name='round', required)
+            input#js-round(type='number', name='round', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
-            input#js-score-hokaccha(type='number', name='hokaccha', value='25000', step='100', required)
+            input#js-score-hokaccha(type='number', name='hokaccha', step='100', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
-            input#js-score-1000ch(type='number', name='1000ch', value='25000', step='100', required)
+            input#js-score-1000ch(type='number', name='1000ch', step='100', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-hiloki') hiloki
-            input#js-score-hiloki(type='number', name='hiloki', value='25000', step='100', required)
+            input#js-score-hiloki(type='number', name='hiloki', step='100', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
-            input#js-score-tan_yuki(type='number', name='tan_yuki', value='25000', step='100', required)
+            input#js-score-tan_yuki(type='number', name='tan_yuki', step='100', required)
           button#js-submit.btn.btn-primary.btn-block Submit
-        .col-xs-8
-          table.table.table-bordered
-            thead
-              tr
-                th Date
-                th Round
-                th @hokaccha
-                th @1000ch
-                th @hiloki
-                th @tan_yuki
-                th 
-            tbody
-            tfoot#js-total
-              tr
-                th
-                th
-                th#js-total-hokaccha
-                th#js-total-1000ch
-                th#js-total-hiloki
-                th#js-total-tan_yuki
-                th
     script(src='/js/lib.js')
     script(src='/js/namespace.js')
     script(src='/js/model/result.js')
-    script(src='/js/view/submit-form.js')
+    script(src='/js/view/register.js')
     script(src='/js/view/header.js')
     script(src='/js/view/date-list.js')
     script(src='/js/view/result.js')
     script(src='/js/view/result-item.js')
     script(src='/js/view/result-list.js')
+    script(src='/js/view/result-total-item.js')
     script(src='/js/view/result-total.js')
     script(src='/js/app.js')

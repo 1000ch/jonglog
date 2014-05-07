@@ -14,6 +14,8 @@ init:
 
 	npm install .
 	node_modules/bower/bin/bower install
+	mkdir -p public/js
+	mkdir -p public/css
 
 copy:
 	@echo ""
@@ -27,7 +29,7 @@ concat:
 	@echo ">>> Concatenate"
 	@echo ""
 
-	cat public/jquery/dist/jquery.js public/underscore/underscore.js public/backbone/backbone.js public/ratchet/js/rachet.js public/moment/moment.js > public/js/lib.js
+	cat public/jquery/dist/jquery.js public/underscore/underscore.js public/backbone/backbone.js public/ratchet/dist/js/ratchet.js public/moment/moment.js > public/js/lib.js
 	cat public/ratchet/dist/css/ratchet.css public/ratchet/dist/css/ratchet-theme-ios.css > public/css/lib.css
 
 minify:

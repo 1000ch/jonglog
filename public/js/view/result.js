@@ -16,9 +16,11 @@ Jonglog.View.ResultView = Backbone.View.extend({
   },
   hide: function () {
     this.listView.$el.hide();
+    this.totalView.$el.hide();
   },
   render: function () {
     this.listView.$el.show();
+    this.totalView.$el.show();
   },
   onClick: function (e) {
     e.preventDefault();

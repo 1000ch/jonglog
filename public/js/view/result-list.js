@@ -1,21 +1,28 @@
 Jonglog.View.ResultListView = Backbone.View.extend({
   el: '#js-results',
+  date: '',
   initialize: function () {
-    this.listenTo(this.collection, 'sync destroy', this.onSync);
-    this.listenTo(Jonglog.mediator, 'filter:date', this.filterByDate);
+    this.listenTo(this.collection, 'sync destroy', this.render);
+    this.listenTo(Jonglog.mediator, 'filter:date', this.setDateFilter);
   },
-  onSync: function () {
-    this.render(this.collection);
+  setDateFilter: function (date) {
+    this.date = date;
+    this.render();
   },
-  filterByDate: function (date) {
-    var filtered = this.collection.filter(function (model) {
-      return model.get('date') === date;
-    });
-    this.render(filtered);
+  filter: function () {
+    var self = this;
+    if (!self.date) {
+      return self.collection;
+    } else {
+      var array = self.collection.filter(function (model) {
+        return model.get('date') === self.date;
+      });
+      return new Jonglog.Collection.Results(array);
+    }
   },
-  render: function (collection) {
+  render: function () {
     var items = [];
-    collection.forEach(function (model) {
+    this.filter().forEach(function (model) {
       var resultItem = new Jonglog.View.ResultItemView({
         model: model
       });

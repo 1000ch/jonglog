@@ -1,5 +1,31 @@
 Jonglog.Model.Result = Backbone.Model.extend({
   idAttribute: '_id',
+  defaults: function () {
+    return {
+      date: moment().format('YYYY-MM-DD'),
+      round: 1,
+      hokaccha: {
+        score: 25000,
+        rank: 1,
+        point: 0
+      },
+      '1000ch': {
+        score: 25000,
+        rank: 1,
+        point: 0
+      },
+      hiloki: {
+        score: 25000,
+        rank: 1,
+        point: 0
+      },
+      tan_yuki: {
+        score: 25000,
+        rank: 1,
+        point: 0
+      }
+    };
+  },
   keys: ['hokaccha', '1000ch', 'hiloki', 'tan_yuki'],
   initialize: function () {
     this.setRank();
