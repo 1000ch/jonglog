@@ -29,8 +29,8 @@ concat:
 	@echo ">>> Concatenate"
 	@echo ""
 
-	cat public/jquery/dist/jquery.js public/underscore/underscore.js public/backbone/backbone.js public/ratchet/dist/js/ratchet.js public/moment/moment.js > public/js/lib.js
-	cat public/ratchet/dist/css/ratchet.css public/ratchet/dist/css/ratchet-theme-ios.css > public/css/lib.css
+	cat bower_components/jquery/dist/jquery.js bower_components/underscore/underscore.js bower_components/backbone/backbone.js bower_components/ratchet/dist/js/ratchet.js bower_components/moment/moment.js > public/js/lib.js
+	cat bower_components/ratchet/dist/css/ratchet.css bower_components/ratchet/dist/css/ratchet-theme-ios.css > public/css/lib.css
 
 minify:
 	@echo ""
