@@ -20,19 +20,21 @@ Jonglog.Router = Backbone.Router.extend({
   }
 });
 Jonglog.router = new Jonglog.Router();
-Jonglog.results = new Jonglog.Collection.Results();
+Jonglog.dateList = new Jonglog.Collection.DateList();
+Jonglog.resultList = new Jonglog.Collection.ResultList();
 Jonglog.headerView = new Jonglog.View.HeaderView();
 Jonglog.dateListView = new Jonglog.View.DateListView({
-  collection: Jonglog.results
+  collection: Jonglog.dateList
 });
 Jonglog.resultView = new Jonglog.View.ResultView();
 Jonglog.registerView = new Jonglog.View.RegisterView({
-  collection: Jonglog.results
+  collection: Jonglog.resultList
 });
 
 $(function () {
   $.when(
-    Jonglog.results.fetch()
+    Jonglog.dateList.fetch(),
+    Jonglog.resultList.fetch()
   ).done(function () {
     Backbone.history.start({
       pushState: false
