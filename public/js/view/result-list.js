@@ -2,7 +2,7 @@ Jonglog.View.ResultListView = Backbone.View.extend({
   el: '#js-results',
   date: '',
   initialize: function () {
-    this.listenTo(this.collection, 'sync destroy', this.render);
+    this.listenTo(this.collection, 'add sync destroy', this.render);
     this.listenTo(Jonglog.mediator, 'filter:date', this.setDateFilter);
   },
   setDateFilter: function (date) {
@@ -17,7 +17,7 @@ Jonglog.View.ResultListView = Backbone.View.extend({
       var array = self.collection.filter(function (model) {
         return model.get('date') === self.date;
       });
-      return new Jonglog.Collection.Results(array);
+      return new Jonglog.Collection.ResultList(array);
     }
   },
   render: function () {

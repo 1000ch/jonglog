@@ -22,7 +22,7 @@ copy:
 	@echo ">>> Copy"
 	@echo ""
 
-	cp -r public/ratchet/dist/fonts public
+	cp -r bower_components/ratchet/dist/fonts public
 
 concat:
 	@echo ""

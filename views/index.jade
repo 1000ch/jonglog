@@ -7,13 +7,10 @@ html
     link(rel='stylesheet', href='/css/lib.css')
   body
     header#js-header.bar.bar-nav
-      a.icon.icon-left-nav.pull-left(data-link='/')
+      a.icon.icon-left-nav.pull-left(data-href='/')
       h1.title 結果
     .content
-      ul#js-date-list.table-view
-        each date in dates
-          li.table-view-cell
-            a.navigate-right(data-link='/#{date}')!= date
+      #js-date-list
       #js-result
         #js-results
         #js-total
@@ -24,22 +21,23 @@ html
             input#js-date(type='date', name='date', required)
           .input-row
             label.col-sm-2.control-label(for='js-round') Round
-            input#js-round(type='number', name='round', required)
+            input#js-round(type='number', name='round', value='1', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
-            input#js-score-hokaccha(type='number', name='hokaccha', step='100', required)
+            input#js-score-hokaccha(type='number', name='hokaccha', value='25000', step='100', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
-            input#js-score-1000ch(type='number', name='1000ch', step='100', required)
+            input#js-score-1000ch(type='number', name='1000ch', value='25000', step='100', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-hiloki') hiloki
-            input#js-score-hiloki(type='number', name='hiloki', step='100', required)
+            input#js-score-hiloki(type='number', name='hiloki', value='25000', step='100', required)
           .input-row
             label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
-            input#js-score-tan_yuki(type='number', name='tan_yuki', step='100', required)
+            input#js-score-tan_yuki(type='number', name='tan_yuki', value='25000', step='100', required)
           button#js-submit.btn.btn-primary.btn-block Submit
     script(src='/js/lib.js')
     script(src='/js/namespace.js')
+    script(src='/js/model/date.js')
     script(src='/js/model/result.js')
     script(src='/js/view/register.js')
     script(src='/js/view/header.js')

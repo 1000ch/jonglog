@@ -100,7 +100,7 @@ Jonglog.Model.Result = Backbone.Model.extend({
   }
 });
 
-Jonglog.Collection.Results = Backbone.Collection.extend({
+Jonglog.Collection.ResultList = Backbone.Collection.extend({
   model: Jonglog.Model.Result,
-  url: '/api/list'
+  url: '/api/result'
 });

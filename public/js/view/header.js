@@ -20,8 +20,7 @@ Jonglog.View.HeaderView = Backbone.View.extend({
     this.$el.find('.title').text('結果');
   },
   onClick: function (e) {
-    e.preventDefault();
-    var link = $(e.target).attr('data-link');
+    var link = e.target.getAttribute('data-href');
     Jonglog.mediator.trigger('route:change', link);
   }
 });

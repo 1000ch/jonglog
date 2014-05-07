@@ -37,15 +37,24 @@ Jonglog.View.ResultTotalItemView = Backbone.View.extend({
       var points = _.map(json, function (data) {
         return data[key].point - 0;
       });
-      var rankSum = _.reduce(ranks, function (a, b) {
-        return a + b;
-      });
-      var pointSum = _.reduce(points, function (a, b) {
-        return a + b;
-      });
+      if (ranks.length) {
+        var rankSum = _.reduce(ranks, function (a, b) {
+          return a + b;
+        });
+      }
+      var score = 0;
+      if (points.length) {
+        score = _.reduce(points, function (a, b) {
+          return a + b;
+        });
+      }
+      var rank = 0;
+      if (rankSum && ranks.length) {
+        rank = rankSum / ranks.length;
+      }
       data[key] = {
-        score: pointSum,
-        rank :rankSum / ranks.length
+        score: score,
+        rank: rank
       };
     });
     var html = _.template(this.template, {

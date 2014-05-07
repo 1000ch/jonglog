@@ -1,6 +1,5 @@
 Jonglog.View.RegisterView = Backbone.View.extend({
   el: '#js-register',
-  model: new Jonglog.Model.Result(),
   events: {
     'click #js-submit': 'onClickSubmit'
   },
@@ -17,41 +16,7 @@ Jonglog.View.RegisterView = Backbone.View.extend({
     this.$hiloki = this.$el.find('#js-score-hiloki');
     this.$tan_yuki = this.$el.find('#js-score-tan_yuki');
 
-    this.$date.val(this.model.get('date'));
-    this.$round.val(this.model.get('round'));
-    this.$hokaccha.val(this.model.get('hokaccha').score);
-    this.$1000ch.val(this.model.get('1000ch').score);
-    this.$hiloki.val(this.model.get('hiloki').score);
-    this.$tan_yuki.val(this.model.get('tan_yuki').score);
-
-    this.$hokaccha.on('change', function () {
-      self.model.set({
-        hokaccha: {
-          score: this.value
-        }
-      });
-    });
-    this.$1000ch.on('change', function () {
-      self.model.set({
-        '1000ch': {
-          score: this.value
-        }
-      });
-    });
-    this.$hiloki.on('change', function () {
-      self.model.set({
-        hiloki: {
-          score: this.value
-        }
-      });
-    });
-    this.$tan_yuki.on('change', function () {
-      self.model.set({
-        tan_yuki: {
-          score: this.value
-        }
-      });
-    });
+    this.$date.val(moment().format('YYYY-MM-DD'));
   },
   hide: function () {
     this.$el.hide();
@@ -61,6 +26,21 @@ Jonglog.View.RegisterView = Backbone.View.extend({
   },
   onClickSubmit: function (e) {
     e.preventDefault();
-    this.collection.add(this.model);
+    this.collection.create({
+      date: this.$date.val(),
+      round: this.$round.val(),
+      hokaccha: {
+        score: this.$hokaccha.val()
+      },
+      '1000ch': {
+        score: this.$1000ch.val()
+      },
+      hiloki: {
+        score: this.$hiloki.val()
+      },
+      tan_yuki: {
+        score: this.$tan_yuki.val()
+      }
+    });
   }
 });

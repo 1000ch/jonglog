@@ -16,19 +16,25 @@ app.get('/', function (request, response) {
   });
 });
 
-app.get('/api/list', function (request, response, next) {
+app.get('/api/date', function (request, response, next) {
+  dao.distinct('date', function (dates) {
+    response.json(dates);
+  });
+});
+
+app.get('/api/result', function (request, response, next) {
   dao.get(function (results) {
     response.json(results);
   });
 });
 
-app.post('/api/list', function (request, response, next) {
+app.post('/api/result', function (request, response, next) {
   dao.add(request.body, function (results) {
     response.json(results);
   });
 });
 
-app.delete('/api/list/:id', function (request, response, next) {
+app.delete('/api/result/:id', function (request, response, next) {
   var selector = {
     _id: request.params.id
   };

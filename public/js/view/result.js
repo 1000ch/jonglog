@@ -2,10 +2,10 @@ Jonglog.View.ResultView = Backbone.View.extend({
   el: '#js-result',
   initialize: function () {
     this.listView = new Jonglog.View.ResultListView({
-      collection: Jonglog.results
+      collection: Jonglog.resultList
     });
     this.totalView = new Jonglog.View.ResultTotalView({
-      collection: Jonglog.results
+      collection: Jonglog.resultList
     });
 
     this.listView.$el.hide();
@@ -21,10 +21,5 @@ Jonglog.View.ResultView = Backbone.View.extend({
   render: function () {
     this.listView.$el.show();
     this.totalView.$el.show();
-  },
-  onClick: function (e) {
-    e.preventDefault();
-    var link = $(e.target).attr('data-link');
-    Jonglog.mediator.trigger('route:change', link);
   }
 });
