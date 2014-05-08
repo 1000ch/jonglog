@@ -8,8 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "make"
+    "start": "node index.js"
   },
   "author": "1000ch",
   "license": "MIT",
