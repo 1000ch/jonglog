@@ -2,6 +2,10 @@
   "name": "jonglog",
   "version": "0.0.0",
   "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/1000ch/jonglog.git"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
