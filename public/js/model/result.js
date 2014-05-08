@@ -38,18 +38,12 @@ Jonglog.Model.Result = Backbone.Model.extend({
     if (!attrs.round) {
       return '半荘数が不正です';
     }
-    if (!_.isNumber(attrs.hokaccha.score - 0)) {
-      return 'hokacchaの得点が不正です'
-    }
-    if (!_.isNumber(attrs['1000ch'].score - 0)) {
-      return '1000chの得点が不正です'
-    }
-    if (!_.isNumber(attrs.hiloki.score - 0)) {
-      return 'hilokiの得点が不正です'
-    }
-    if (!_.isNumber(attrs.tan_yuki.score - 0)) {
-      return 'tan_yukiの得点が不正です';
-    }
+    this.keys.forEach(function (key) {
+      if (!_.isNumber(attrs[key].score - 0)) {
+        return key + 'の得点が不正です'
+      }
+    });
+    var is = this.keys.some();
   },
   setRank: function () {
     var self = this;
