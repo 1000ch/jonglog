@@ -4,7 +4,6 @@ Jonglog.View.RegisterView = Backbone.View.extend({
     'click #js-submit': 'onClickSubmit'
   },
   initialize: function () {
-    var self = this;
 
     this.listenTo(Jonglog.mediator, 'route:index', this.render);
     this.listenTo(Jonglog.mediator, 'route:result', this.hide);
@@ -42,5 +41,6 @@ Jonglog.View.RegisterView = Backbone.View.extend({
         score: this.$tan_yuki.val()
       }
     });
+    Jonglog.dateList.fetch();
   }
 });

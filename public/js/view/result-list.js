@@ -28,6 +28,13 @@ Jonglog.View.ResultListView = Backbone.View.extend({
       });
       items.push(resultItem.el);
     });
-    this.$el.html(items);
+    if (items.length) {
+      this.$el.html(items);
+    } else {
+      Jonglog.dateList.fetch();
+      Jonglog.router.navigate('/', {
+        trigger: true
+      });
+    }
   }
 });

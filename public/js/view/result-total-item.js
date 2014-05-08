@@ -3,7 +3,7 @@ Jonglog.View.ResultTotalItemView = Backbone.View.extend({
   className: 'table-view',
   template:
     '<li class="table-view-divider">' +
-      '<%= data.date %>総合' +
+      '総合' +
     '</li>' +
     '<li class="table-view-cell">@hokaccha' +
       '<span class="badge badge-primary">合計:<%= data.hokaccha.score %></span>' +
@@ -27,9 +27,7 @@ Jonglog.View.ResultTotalItemView = Backbone.View.extend({
   render: function () {
     var keys = ['hokaccha', '1000ch', 'hiloki', 'tan_yuki'];
     var json = this.collection.toJSON();
-    var data = {
-      date: ''
-    };
+    var data = {};
     _.each(keys, function (key) {
       var ranks = _.map(json, function (data) {
         return data[key].rank - 0;
