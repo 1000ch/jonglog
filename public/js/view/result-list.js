@@ -9,7 +9,7 @@ Jonglog.View.ResultListView = Backbone.View.extend({
     this.date = date;
     this.render();
   },
-  filter: function () {
+  applyFilter: function () {
     var self = this;
     if (!self.date) {
       return self.collection;
@@ -22,7 +22,7 @@ Jonglog.View.ResultListView = Backbone.View.extend({
   },
   render: function () {
     var items = [];
-    this.filter().forEach(function (model) {
+    this.applyFilter().forEach(function (model) {
       var resultItem = new Jonglog.View.ResultItemView({
         model: model
       });

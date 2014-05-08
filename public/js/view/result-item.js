@@ -29,7 +29,7 @@ Jonglog.View.ResultItemView = Backbone.View.extend({
       '　<button class="btn btn-negative js-delete" data-id="<%= model._id %>">Delete</button>' +
     '</li>',
   events: {
-    'click .js-delete': 'onClickDelete'
+    'click .js-delete': 'onDelete'
   },
   initialize: function () {
     this.render();
@@ -41,7 +41,7 @@ Jonglog.View.ResultItemView = Backbone.View.extend({
     });
     this.$el.html(html);
   },
-  onClickDelete: function (e) {
+  onDelete: function (e) {
     this.model.destroy();
   }
 });

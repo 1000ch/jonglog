@@ -9,7 +9,7 @@ Jonglog.View.ResultTotalView = Backbone.View.extend({
     this.date = date;
     this.render();
   },
-  filter: function () {
+  applyFilter: function () {
     var self = this;
     if (!self.date) {
       return self.collection;
@@ -22,7 +22,7 @@ Jonglog.View.ResultTotalView = Backbone.View.extend({
   },
   render: function () {
     var resultTotalItem = new Jonglog.View.ResultTotalItemView({
-      collection: this.filter()
+      collection: this.applyFilter()
     });
     this.$el.html(resultTotalItem.el);
   }

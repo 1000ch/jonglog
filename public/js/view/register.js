@@ -1,7 +1,7 @@
 Jonglog.View.RegisterView = Backbone.View.extend({
   el: '#js-register',
   events: {
-    'click #js-submit': 'onClickSubmit'
+    'click #js-submit': 'onSubmit'
   },
   initialize: function () {
 
@@ -23,7 +23,7 @@ Jonglog.View.RegisterView = Backbone.View.extend({
   render: function () {
     this.$el.show();
   },
-  onClickSubmit: function (e) {
+  onSubmit: function (e) {
     e.preventDefault();
     this.collection.create({
       date: this.$date.val(),
