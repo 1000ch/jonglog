@@ -43,4 +43,4 @@ app.delete('/api/result/:id', function (request, response, next) {
   });
 });
 
-app.listen(3000);
+app.listen(process.env.port || 3000);

@@ -1,7 +1,7 @@
 var _ = require('underscore');
 var MongoClinet = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
-var HOSTNAME = 'mongodb://127.0.0.1:27017/jonglog';
+var HOSTNAME = process.env.MONGOLAB_URI || 'mongodb://127.0.0.1:27017/jonglog';
 var Collections = {
   RESULT: 'result'
 };
