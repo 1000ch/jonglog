@@ -12,7 +12,6 @@ init:
 	@echo ">>> Initialize"
 	@echo ""
 
-	npm install .
 	node_modules/bower/bin/bower install
 	mkdir -p public/js
 	mkdir -p public/css
