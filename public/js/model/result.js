@@ -43,7 +43,6 @@ Jonglog.Model.Result = Backbone.Model.extend({
         return key + 'の得点が不正です'
       }
     });
-    var is = this.keys.some();
   },
   setRank: function () {
     var self = this;
