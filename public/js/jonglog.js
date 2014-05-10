@@ -19,6 +19,7 @@ Jonglog.Router = Backbone.Router.extend({
     Jonglog.mediator.trigger('filter:date', date);
   }
 });
+
 Jonglog.router = new Jonglog.Router();
 Jonglog.dateList = new Jonglog.Collection.DateList();
 Jonglog.resultList = new Jonglog.Collection.ResultList();
