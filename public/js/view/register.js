@@ -1,8 +1,10 @@
 Jonglog.View.RegisterView = Backbone.View.extend({
   el: '#js-register',
+  events: {
+    'submit form': 'onSubmit'
+  },
   initialize: function () {
 
-    this.$form = this.$el.find('form');
     this.$date = this.$el.find('#js-date').val(moment().format('YYYY-MM-DD'));
     this.$round = this.$el.find('#js-round');
     this.$hokaccha = this.$el.find('#js-score-hokaccha');
@@ -13,7 +15,6 @@ Jonglog.View.RegisterView = Backbone.View.extend({
     this.listenTo(Jonglog.mediator, 'route:index', this.render);
     this.listenTo(Jonglog.mediator, 'route:result', this.hide);
     this.listenTo(this.collection, 'invalid', this.onError);
-    this.listenTo(this.$form, 'submit', this.onSubmit);
   },
   hide: function () {
     this.$el.hide();
@@ -23,6 +24,7 @@ Jonglog.View.RegisterView = Backbone.View.extend({
   },
   onSubmit: function (e) {
     e.preventDefault();
+
     this.collection.create({
       date: this.$date.val(),
       round: this.$round.val(),

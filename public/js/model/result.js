@@ -17,9 +17,11 @@ Jonglog.Model.Result = Backbone.Model.extend({
     if (!attributes.round) {
       return '半荘数が不正です';
     }
-    
+
     var total = 0;
     for (var i = 0, l = this.keys.length;i < l;i++) {
+
+      // key is name
       var key = this.keys[i];
       var score = attributes[key].score;
 
@@ -29,8 +31,9 @@ Jonglog.Model.Result = Backbone.Model.extend({
       if (!_.isNumber(score - 0)) {
         return key + 'の得点が不正です'
       }
-      total += score;
+      total += score | 0;
     }
+
     if (total < 100000) {
       return '得点が不足しています';
     } else if (total > 100000) {
