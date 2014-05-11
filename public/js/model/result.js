@@ -2,28 +2,7 @@ Jonglog.Model.Result = Backbone.Model.extend({
   idAttribute: '_id',
   defaults: function () {
     return {
-      date: moment().format('YYYY-MM-DD'),
-      round: 1,
-      hokaccha: {
-        score: 25000,
-        rank: 1,
-        point: 0
-      },
-      '1000ch': {
-        score: 25000,
-        rank: 1,
-        point: 0
-      },
-      hiloki: {
-        score: 25000,
-        rank: 1,
-        point: 0
-      },
-      tan_yuki: {
-        score: 25000,
-        rank: 1,
-        point: 0
-      }
+      date: moment().format('YYYY-MM-DD')
     };
   },
   keys: ['hokaccha', '1000ch', 'hiloki', 'tan_yuki'],
@@ -31,18 +10,32 @@ Jonglog.Model.Result = Backbone.Model.extend({
     this.setRank();
     this.setPoint();
   },
-  validate: function (attrs) {
-    if (!attrs.date) {
+  validate: function (attributes) {
+    if (!attributes.date) {
       return '日時が不正です';
     }
-    if (!attrs.round) {
+    if (!attributes.round) {
       return '半荘数が不正です';
     }
-    this.keys.forEach(function (key) {
-      if (!_.isNumber(attrs[key].score - 0)) {
+    
+    var total = 0;
+    for (var i = 0, l = this.keys.length;i < l;i++) {
+      var key = this.keys[i];
+      var score = attributes[key].score;
+
+      if (score === '') {
+        return key + 'の得点が未入力です'
+      }
+      if (!_.isNumber(score - 0)) {
         return key + 'の得点が不正です'
       }
-    });
+      total += score;
+    }
+    if (total < 100000) {
+      return '得点が不足しています';
+    } else if (total > 100000) {
+      return '得点が超過しています';
+    }
   },
   setRank: function () {
     var self = this;
@@ -74,7 +67,7 @@ Jonglog.Model.Result = Backbone.Model.extend({
       var item = array.pop();
       switch (item.rank) {
         case 4:
-          points[4] =  Math.round((item.score - 30000) / 1000) - 20;
+          points[4] = Math.round((item.score - 30000) / 1000) - 20;
           break;
         case 3:
           points[3] = Math.round((item.score - 30000) / 1000) - 10;

@@ -12,7 +12,7 @@ Jonglog.View.DateListView = Backbone.View.extend({
     'click a': 'onClick'
   },
   initialize: function () {
-    this.listenTo(this.collection, 'sync', this.render);
+    this.listenTo(this.collection, 'add sync destroy', this.render);
     this.listenTo(Jonglog.mediator, 'route:index', this.render);
     this.listenTo(Jonglog.mediator, 'route:result', this.hide);
   },

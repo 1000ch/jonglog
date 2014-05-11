@@ -1,7 +1,8 @@
 Jonglog.View.HeaderView = Backbone.View.extend({
   el: '#js-header',
   events: {
-    'click a': 'onClick'
+    'click a': 'onClick',
+    'click #js-refresh': 'onRefresh'
   },
   initialize: function () {
     this.listenTo(Jonglog.mediator, 'route:index', this.renderIndex);
@@ -22,5 +23,8 @@ Jonglog.View.HeaderView = Backbone.View.extend({
   onClick: function (e) {
     var link = e.target.getAttribute('data-href');
     Jonglog.mediator.trigger('route:change', link);
+  },
+  onRefresh: function (e) {
+    location.reload();
   }
 });

@@ -8,6 +8,7 @@ html
   body
     header#js-header.bar.bar-nav
       a.icon.icon-left-nav.pull-left(data-href='/')
+      a#js-refresh.icon.icon-refresh.pull-right
       h1.title 結果
     .content
       #js-date-list
@@ -17,36 +18,36 @@ html
       #js-register
         form.input-group
           .input-row
-            label(for='js-date') Date
+            label(for='js-date') 日付
             input#js-date(type='date', name='date', required)
           .input-row
-            label.col-sm-2.control-label(for='js-round') Round
-            input#js-round(type='number', name='round', value='1', required)
+            label.col-sm-2.control-label(for='js-round') 半荘
+            input#js-round(type='number', name='round', pattern='^(\d{1,2})$', required)
           .input-row
-            label.col-sm-2.control-label(for='js-score-hokaccha') hokaccha
-            input#js-score-hokaccha(type='number', name='hokaccha', value='25000', step='100', required)
+            label.col-sm-2.control-label(for='js-score-hokaccha') @hokaccha
+            input#js-score-hokaccha(type='number', name='hokaccha', step='100', pattern='^(\d{1,3}00|0)$', required)
           .input-row
-            label.col-sm-2.control-label(for='js-score-1000ch') 1000ch
-            input#js-score-1000ch(type='number', name='1000ch', value='25000', step='100', required)
+            label.col-sm-2.control-label(for='js-score-1000ch') @1000ch
+            input#js-score-1000ch(type='number', name='1000ch', step='100', pattern='^(\d{1,3}00|0)$', required)
           .input-row
-            label.col-sm-2.control-label(for='js-score-hiloki') hiloki
-            input#js-score-hiloki(type='number', name='hiloki', value='25000', step='100', required)
+            label.col-sm-2.control-label(for='js-score-hiloki') @hiloki
+            input#js-score-hiloki(type='number', name='hiloki', step='100', pattern='^(\d{1,3}00|0)$', required)
           .input-row
-            label.col-sm-2.control-label(for='js-score-tan_yuki') tan_yuki
-            input#js-score-tan_yuki(type='number', name='tan_yuki', value='25000', step='100', required)
-          button#js-submit.btn.btn-primary.btn-block Submit
-    //script(src='/js/lib.js')
-    //script(src='/js/namespace.js')
-    //script(src='/js/model/date.js')
-    //script(src='/js/model/result.js')
-    //script(src='/js/view/register.js')
-    //script(src='/js/view/header.js')
-    //script(src='/js/view/date-list.js')
-    //script(src='/js/view/result.js')
-    //script(src='/js/view/result-item.js')
-    //script(src='/js/view/result-list.js')
-    //script(src='/js/view/result-total-item.js')
-    //script(src='/js/view/result-total.js')
-    //script(src='/js/longlog.js')
-    script(src='/js/lib.min.js')
-    script(src='/js/app.min.js')
+            label.col-sm-2.control-label(for='js-score-tan_yuki') @tan_yuki
+            input#js-score-tan_yuki(type='number', name='tan_yuki', step='100', pattern='^(\d{1,3}00|0)$', required)
+          button#js-submit.btn.btn-primary.btn-block(type='submit') Submit
+    script(src='/js/lib.js')
+    script(src='/js/namespace.js')
+    script(src='/js/model/date.js')
+    script(src='/js/model/result.js')
+    script(src='/js/view/register.js')
+    script(src='/js/view/header.js')
+    script(src='/js/view/date-list.js')
+    script(src='/js/view/result.js')
+    script(src='/js/view/result-item.js')
+    script(src='/js/view/result-list.js')
+    script(src='/js/view/result-total-item.js')
+    script(src='/js/view/result-total.js')
+    script(src='/js/jonglog.js')
+    //script(src='/js/lib.min.js')
+    //script(src='/js/app.min.js')
