@@ -24,8 +24,7 @@ Jonglog.View.RegisterView = Backbone.View.extend({
   },
   onSubmit: function (e) {
     e.preventDefault();
-
-    this.collection.create({
+    var model = new Jonglog.Model.Result({
       date: this.$date.val(),
       round: this.$round.val(),
       hokaccha: {
@@ -40,6 +39,9 @@ Jonglog.View.RegisterView = Backbone.View.extend({
       tan_yuki: {
         score: this.$tan_yuki.val()
       }
+    });
+    this.collection.create(model, {
+      validate: true
     });
     Jonglog.dateList.fetch();
   },
