@@ -3,7 +3,8 @@ var Jonglog = {
   Collection: {},
   View: {},
   mediator: _.extend({}, Backbone.Events)
-};Jonglog.Model.Date = Backbone.Model.extend({
+};
+Jonglog.Model.Date = Backbone.Model.extend({
   parse: function (date) {
     return {
       date: date
@@ -14,32 +15,12 @@ var Jonglog = {
 Jonglog.Collection.DateList = Backbone.Collection.extend({
   model: Jonglog.Model.Date,
   url: '/api/date'
-});Jonglog.Model.Result = Backbone.Model.extend({
+});
+Jonglog.Model.Result = Backbone.Model.extend({
   idAttribute: '_id',
   defaults: function () {
     return {
-      date: moment().format('YYYY-MM-DD'),
-      round: 1,
-      hokaccha: {
-        score: 25000,
-        rank: 1,
-        point: 0
-      },
-      '1000ch': {
-        score: 25000,
-        rank: 1,
-        point: 0
-      },
-      hiloki: {
-        score: 25000,
-        rank: 1,
-        point: 0
-      },
-      tan_yuki: {
-        score: 25000,
-        rank: 1,
-        point: 0
-      }
+      date: moment().format('YYYY-MM-DD')
     };
   },
   keys: ['hokaccha', '1000ch', 'hiloki', 'tan_yuki'],
@@ -47,18 +28,35 @@ Jonglog.Collection.DateList = Backbone.Collection.extend({
     this.setRank();
     this.setPoint();
   },
-  validate: function (attrs) {
-    if (!attrs.date) {
+  validate: function (attributes) {
+    if (!attributes.date) {
       return '日時が不正です';
     }
-    if (!attrs.round) {
+    if (!attributes.round) {
       return '半荘数が不正です';
     }
-    this.keys.forEach(function (key) {
-      if (!_.isNumber(attrs[key].score - 0)) {
+
+    var total = 0;
+    for (var i = 0, l = this.keys.length;i < l;i++) {
+
+      // key is name
+      var key = this.keys[i];
+      var score = attributes[key].score;
+
+      if (score === '') {
+        return key + 'の得点が未入力です'
+      }
+      if (!_.isNumber(score - 0)) {
         return key + 'の得点が不正です'
       }
-    });
+      total += score | 0;
+    }
+
+    if (total < 100000) {
+      return '得点が不足しています';
+    } else if (total > 100000) {
+      return '得点が超過しています';
+    }
   },
   setRank: function () {
     var self = this;
@@ -82,30 +80,83 @@ Jonglog.Collection.DateList = Backbone.Collection.extend({
         rank: self.attributes[key].rank - 0
       };
     });
-    array = _.sortBy(array, function (item) {
-      return (item.rank - 0);
+
+    var first, second, third, fourth;
+    var firsts = _.filter(array, function (data) {
+      return data.rank === 1;
     });
-    var points = [];
-    while (array.length) {
-      var item = array.pop();
-      switch (item.rank) {
-        case 4:
-          points[4] =  Math.round((item.score - 30000) / 1000) - 20;
-          break;
-        case 3:
-          points[3] = Math.round((item.score - 30000) / 1000) - 10;
-          break;
-        case 2:
-          points[2] = Math.round((item.score - 30000) / 1000) + 10;
-          break;
-        case 1:
-          points[1] = 0 - points[2] - points[3] - points[4];
-          break;
-      }
+    var seconds = _.filter(array, function (data) {
+      return data.rank === 2;
+    });
+    var thirds = _.filter(array, function (data) {
+      return data.rank === 3;
+    });
+    var fourths = _.filter(array, function (data) {
+      return data.rank === 4;
+    });
+
+    // 1, 1, 1, 4
+    // 1, 1, 3, 3
+    // 1, 1, 3, 4
+    // 1, 2, 2, 2
+    // 1, 2, 2, 4
+    // 1, 2, 3, 3
+    // 1, 2, 3, 4
+    switch (firsts.length) {
+      case 1:
+        if (seconds.length === 3) {
+          fourth = seconds[2];
+          third = seconds[1];
+          second = seconds[0];
+          first = firsts[0];
+        } else if (seconds.length === 2 && fourths.length === 1) {
+          fourth = fourths[0];
+          third = seconds[1];
+          second = seconds[0];
+          first = firsts[0];
+        } else if (seconds.length === 1) {
+          if (thirds.length === 2 && fourths.length === 0) {
+            fourth = fourths[1];
+            third = fourths[0];
+            second = seconds[0];
+            first = firsts[0];
+          } else if (thirds.length === 1 && fourths.length === 1) {
+            fourth = fourths[0];
+            third = thirds[0];
+            second = seconds[0];
+            first = firsts[0];
+          }
+        }
+        break;
+      case 2:
+        if (thirds.length === 2 && fourths.length === 0) {
+          fourth = thirds[1];
+          third = thirds[0];
+          second = firsts[1];
+          first = firsts[0];
+        } else if (thirds.length === 1 && fourths.length === 1) {
+          fourth = fourths[0];
+          third = thirds[0];
+          second = firsts[1];
+          first = firsts[0];
+        }
+        break;
+      case 3:
+        fourth = fourths[0];
+        third = firsts[2];
+        second = firsts[1];
+        first = firsts[0];
+        break;
     }
-    _.each(self.keys, function (key) {
-      self.attributes[key].point = points[self.attributes[key].rank];
-    });
+    fourth.point = Math.round((fourth.score - 30000) / 1000) - 20;
+    third.point = Math.round((third.score - 30000) / 1000) - 10;
+    second.point = Math.round((second.score - 30000) / 1000) + 10;
+    first.point = 0 - second.point - third.point - fourth.point;
+
+    self.attributes[fourth.key].point = fourth.point;
+    self.attributes[third.key].point = third.point;
+    self.attributes[second.key].point = second.point;
+    self.attributes[first.key].point = first.point;
   }
 });
 
@@ -115,21 +166,20 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
 });Jonglog.View.RegisterView = Backbone.View.extend({
   el: '#js-register',
   events: {
-    'click #js-submit': 'onSubmit'
+    'submit form': 'onSubmit'
   },
   initialize: function () {
 
-    this.listenTo(Jonglog.mediator, 'route:index', this.render);
-    this.listenTo(Jonglog.mediator, 'route:result', this.hide);
-
-    this.$date = this.$el.find('#js-date');
+    this.$date = this.$el.find('#js-date').val(moment().format('YYYY-MM-DD'));
     this.$round = this.$el.find('#js-round');
     this.$hokaccha = this.$el.find('#js-score-hokaccha');
     this.$1000ch = this.$el.find('#js-score-1000ch');
     this.$hiloki = this.$el.find('#js-score-hiloki');
     this.$tan_yuki = this.$el.find('#js-score-tan_yuki');
 
-    this.$date.val(moment().format('YYYY-MM-DD'));
+    this.listenTo(Jonglog.mediator, 'route:index', this.render);
+    this.listenTo(Jonglog.mediator, 'route:result', this.hide);
+    this.listenTo(this.collection, 'invalid', this.onError);
   },
   hide: function () {
     this.$el.hide();
@@ -139,6 +189,7 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
   },
   onSubmit: function (e) {
     e.preventDefault();
+
     this.collection.create({
       date: this.$date.val(),
       round: this.$round.val(),
@@ -156,11 +207,16 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
       }
     });
     Jonglog.dateList.fetch();
+  },
+  onError: function (model, message) {
+    alert(message);
   }
-});Jonglog.View.HeaderView = Backbone.View.extend({
+});
+Jonglog.View.HeaderView = Backbone.View.extend({
   el: '#js-header',
   events: {
-    'click a': 'onClick'
+    'click a': 'onClick',
+    'click #js-refresh': 'onRefresh'
   },
   initialize: function () {
     this.listenTo(Jonglog.mediator, 'route:index', this.renderIndex);
@@ -181,8 +237,12 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
   onClick: function (e) {
     var link = e.target.getAttribute('data-href');
     Jonglog.mediator.trigger('route:change', link);
+  },
+  onRefresh: function (e) {
+    location.reload();
   }
-});Jonglog.View.DateListView = Backbone.View.extend({
+});
+Jonglog.View.DateListView = Backbone.View.extend({
   el: '#js-date-list',
   template: 
     '<ul class="table-view">' +
@@ -196,7 +256,7 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
     'click a': 'onClick'
   },
   initialize: function () {
-    this.listenTo(this.collection, 'sync', this.render);
+    this.listenTo(this.collection, 'add sync destroy', this.render);
     this.listenTo(Jonglog.mediator, 'route:index', this.render);
     this.listenTo(Jonglog.mediator, 'route:result', this.hide);
   },
@@ -213,7 +273,8 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
     var link = e.target.getAttribute('data-href');
     Jonglog.mediator.trigger('route:change', link);
   }
-});Jonglog.View.ResultView = Backbone.View.extend({
+});
+Jonglog.View.ResultView = Backbone.View.extend({
   el: '#js-result',
   initialize: function () {
     this.listView = new Jonglog.View.ResultListView({
@@ -237,7 +298,8 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
     this.listView.$el.show();
     this.totalView.$el.show();
   }
-});Jonglog.View.ResultItemView = Backbone.View.extend({
+});
+Jonglog.View.ResultItemView = Backbone.View.extend({
   tagName: 'ul',
   className: 'table-view',
   template:
@@ -283,7 +345,8 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
   onDelete: function (e) {
     this.model.destroy();
   }
-});Jonglog.View.ResultListView = Backbone.View.extend({
+});
+Jonglog.View.ResultListView = Backbone.View.extend({
   el: '#js-results',
   date: '',
   initialize: function () {
@@ -322,7 +385,8 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
       });
     }
   }
-});Jonglog.View.ResultTotalItemView = Backbone.View.extend({
+});
+Jonglog.View.ResultTotalItemView = Backbone.View.extend({
   tagName: 'ul',
   className: 'table-view',
   template:
@@ -384,7 +448,8 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
     });
     this.$el.html(html);
   }
-});Jonglog.View.ResultTotalView = Backbone.View.extend({
+});
+Jonglog.View.ResultTotalView = Backbone.View.extend({
   el: '#js-total',
   date: '',
   initialize: function () {
@@ -412,7 +477,8 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
     });
     this.$el.html(resultTotalItem.el);
   }
-});Jonglog.Router = Backbone.Router.extend({
+});
+Jonglog.Router = Backbone.Router.extend({
   routes: {
     '': 'index',
     ':date': 'date'
@@ -433,6 +499,7 @@ Jonglog.Collection.ResultList = Backbone.Collection.extend({
     Jonglog.mediator.trigger('filter:date', date);
   }
 });
+
 Jonglog.router = new Jonglog.Router();
 Jonglog.dateList = new Jonglog.Collection.DateList();
 Jonglog.resultList = new Jonglog.Collection.ResultList();
