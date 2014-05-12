@@ -62,30 +62,83 @@ Jonglog.Model.Result = Backbone.Model.extend({
         rank: self.attributes[key].rank - 0
       };
     });
-    array = _.sortBy(array, function (item) {
-      return (item.rank - 0);
+
+    var first, second, third, fourth;
+    var firsts = _.filter(array, function (data) {
+      return data.rank === 1;
     });
-    var points = [];
-    while (array.length) {
-      var item = array.pop();
-      switch (item.rank) {
-        case 4:
-          points[4] = Math.round((item.score - 30000) / 1000) - 20;
-          break;
-        case 3:
-          points[3] = Math.round((item.score - 30000) / 1000) - 10;
-          break;
-        case 2:
-          points[2] = Math.round((item.score - 30000) / 1000) + 10;
-          break;
-        case 1:
-          points[1] = 0 - points[2] - points[3] - points[4];
-          break;
-      }
+    var seconds = _.filter(array, function (data) {
+      return data.rank === 2;
+    });
+    var thirds = _.filter(array, function (data) {
+      return data.rank === 3;
+    });
+    var fourths = _.filter(array, function (data) {
+      return data.rank === 4;
+    });
+
+    // 1, 1, 1, 4
+    // 1, 1, 3, 3
+    // 1, 1, 3, 4
+    // 1, 2, 2, 2
+    // 1, 2, 2, 4
+    // 1, 2, 3, 3
+    // 1, 2, 3, 4
+    switch (firsts.length) {
+      case 1:
+        if (seconds.length === 3) {
+          fourth = seconds[2];
+          third = seconds[1];
+          second = seconds[0];
+          first = firsts[0];
+        } else if (seconds.length === 2 && fourths.length === 1) {
+          fourth = fourths[0];
+          third = seconds[1];
+          second = seconds[0];
+          first = firsts[0];
+        } else if (seconds.length === 1) {
+          if (thirds.length === 2 && fourths.length === 0) {
+            fourth = fourths[1];
+            third = fourths[0];
+            second = seconds[0];
+            first = firsts[0];
+          } else if (thirds.length === 1 && fourths.length === 1) {
+            fourth = fourths[0];
+            third = thirds[0];
+            second = seconds[0];
+            first = firsts[0];
+          }
+        }
+        break;
+      case 2:
+        if (thirds.length === 2 && fourths.length === 0) {
+          fourth = thirds[1];
+          third = thirds[0];
+          second = firsts[1];
+          first = firsts[0];
+        } else if (thirds.length === 1 && fourths.length === 1) {
+          fourth = fourths[0];
+          third = thirds[0];
+          second = firsts[1];
+          first = firsts[0];
+        }
+        break;
+      case 3:
+        fourth = fourths[0];
+        third = firsts[2];
+        second = firsts[1];
+        first = firsts[0];
+        break;
     }
-    _.each(self.keys, function (key) {
-      self.attributes[key].point = points[self.attributes[key].rank];
-    });
+    fourth.point = Math.round((fourth.score - 30000) / 1000) - 20;
+    third.point = Math.round((third.score - 30000) / 1000) - 10;
+    second.point = Math.round((second.score - 30000) / 1000) + 10;
+    first.point = 0 - second.point - third.point - fourth.point;
+
+    self.attributes[fourth.key].point = fourth.point;
+    self.attributes[third.key].point = third.point;
+    self.attributes[second.key].point = second.point;
+    self.attributes[first.key].point = first.point;
   }
 });
 
