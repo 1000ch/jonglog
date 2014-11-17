@@ -15,9 +15,9 @@
   ],
   "dependencies": {
     "jquery": "~2.1.1",
-    "underscore": "~1.6.0",
-    "backbone": "~1.1.2",
     "moment": "~2.6.0",
-    "ratchet": "twbs/ratchet#~2.0.2"
+    "ratchet": "twbs/ratchet#~2.0.2",
+    "underscore": "~1.7.0",
+    "backbone": "~1.1.2"
   }
 }
